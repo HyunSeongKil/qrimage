@@ -121,9 +121,63 @@ public class AppTest {
     assertNotNull(posY);
   }
 
+  @Test
+  public void 로드_글꼴이름() throws IOException, Exception {
+    AppOption appOption = new AppOption(loadProperties());
+
+    String fontName = appOption.getFontName();
+
+    System.out.println(fontName);
+    assertNotNull(fontName);
+
+  }
+
+  @Test
+  public void 로드_글꼴크기() throws IOException, Exception {
+    AppOption appOption = new AppOption(loadProperties());
+
+    Integer fontSize = appOption.getFontSize();
+
+    System.out.println(fontSize);
+    assertNotNull(fontSize);
+
+  }
+
+  @Test
+  public void 로드_글꼴색상() throws IOException, Exception {
+    AppOption appOption = new AppOption(loadProperties());
+
+    java.awt.Color fontColor = appOption.getFontColor();
+
+    System.out.println(fontColor);
+    assertNotNull(fontColor);
+  }
+
+  @Test
+  public void 로드_주소표시위치_x() throws IOException, Exception {
+    AppOption appOption = new AppOption(loadProperties());
+
+    Integer posX = appOption.getAddressDrawPosX();
+
+    System.out.println(posX);
+    assertNotNull(posX);
+
+  }
+
+  @Test
+  public void 로드_주소표시위치_y() throws IOException, Exception {
+    AppOption appOption = new AppOption(loadProperties());
+
+    Integer posY = appOption.getAddressDrawPosY();
+
+    System.out.println(posY);
+    assertNotNull(posY);
+
+  }
+
 
   private Properties loadProperties() throws Exception {
-    try (InputStream is = new FileInputStream(Paths.get("d:\\", "work", "sdt", "nft-image", "app", "src", "main", "java", "nft", "image", "app.properties").toString())) {
+    try (InputStream is = new FileInputStream(Paths.get("d:\\", "work", "sdt", "nft-image", "app", "src", "main", "resources", "app.properties").toString())) {
       Properties prop = new Properties();
       prop.load(is);
 
