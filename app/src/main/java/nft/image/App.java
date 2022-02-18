@@ -5,13 +5,17 @@ package nft.image;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Properties;
 import javax.imageio.ImageIO;
-import javax.management.RuntimeMBeanException;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -22,9 +26,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.MissingOptionException;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 
 
 public class App {
@@ -80,7 +82,7 @@ public class App {
       //
       String qrcodeImageFilename = App.createQrcode(message);
 
-      xxx(message, qrcodeImageFilename);
+      xxx(message, qrcodeImageFilename, "충북 청주시 흥덕구 서현서로25번길 37");
 
 
       System.out.println(i++ + "/" + appOption.getDatas().size() + "\t" + new Date() + "\t" + message);
@@ -103,11 +105,11 @@ public class App {
 
   /**
    * 
-   * @param message
+   * @param fileName
    * @param qrcodeImageFilename
    * @throws IOException
    */
-  static void xxx(String message, String qrcodeImageFilename) throws IOException {
+  static void xxx(String fileName, String qrcodeImageFilename, String addressName) throws IOException {
     BufferedImage image = ImageIO.read(appOption.getOutPath().resolve(appOption.getBasicImageFile().getName()).toFile());
     BufferedImage qrimage = ImageIO.read(appOption.getOutPath().resolve(qrcodeImageFilename).toFile());
     BufferedImage combined = createCombinedImage(Math.max(image.getWidth(), qrimage.getWidth()), Math.max(image.getHeight(), qrimage.getHeight()));
@@ -115,9 +117,14 @@ public class App {
     Graphics g = combined.getGraphics();
     g.drawImage(image, 0, 0, null);
     g.drawImage(qrimage, appOption.getQrimagePosX(), appOption.getQrimagePosY(), null);
+
+    g.setColor(appOption.getFontColor());
+    g.setFont(new Font(appOption.getFontName(), Font.PLAIN, appOption.getFontSize()));
+    g.drawString(addressName, appOption.getAddressDrawPosX(), appOption.getAddressDrawPosY());
+
     g.dispose();
 
-    writeToFile(combined, message + ".png");
+    writeToFile(combined, fileName + ".png");
   }
 
 

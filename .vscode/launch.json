@@ -37,7 +37,7 @@
       "request": "launch",
       "mainClass": "nft.image.App",
       "projectName": "app",
-      "args": ["-prop", "D:\\work\\sdt\\nft-image\\app\\bin\\main\\nft\\image\\app.properties"]
+      "args": ["-prop", "D:\\work\\sdt\\nft-image\\app\\src\\main\\resources\\app.properties"]
     }
   ]
 }

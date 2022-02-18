@@ -1,5 +1,6 @@
 package nft.image;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,6 +9,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
 import com.google.zxing.client.j2se.MatrixToImageConfig;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 
 public class AppOption {
@@ -22,6 +25,13 @@ public class AppOption {
   private Integer qrimageHeight = 100;
   private Integer qrimagePosX = 100;
   private Integer qrimagePosY = 100;
+
+  private String fontName = "맑은고딕";
+  private Integer fontSize = 20;
+  private Integer addressDrawPosX = 100;
+  private Integer addressDrawPosY = 200;
+  private Color fontColor = new Color(0, 0, 0);
+
 
 
   public AppOption(Properties prop) throws IOException {
@@ -62,7 +72,34 @@ public class AppOption {
       this.qrimagePosY = Integer.parseInt(prop.getProperty("qrimage.pos.y"));
     }
 
+    if (null != prop.getProperty("font.name")) {
+      this.fontName = prop.getProperty("font.name");
+    }
+
+    if (null != prop.getProperty("font.size")) {
+      this.fontSize = Integer.parseInt(prop.getProperty("font.size"));
+    }
+
+    if (null != prop.getProperty("font.color")) {
+      Integer r = Integer.parseInt(prop.getProperty("font.color").split(",")[0]);
+      Integer g = Integer.parseInt(prop.getProperty("font.color").split(",")[1]);
+      Integer b = Integer.parseInt(prop.getProperty("font.color").split(",")[2]);
+
+      this.fontColor = new Color(r, g, b);
+    }
+
+    if (null != prop.getProperty("address.draw.pos.x")) {
+      this.addressDrawPosX = Integer.parseInt(prop.getProperty("address.draw.pos.x"));
+    }
+
+    if (null != prop.getProperty("address.draw.pos.y")) {
+      this.addressDrawPosY = Integer.parseInt(prop.getProperty("address.draw.pos.y"));
+    }
+
     this.config = new MatrixToImageConfig(this.onColor.intValue(), this.offColor.intValue());
+
+    //
+    System.out.println(this);
   }
 
 
@@ -110,6 +147,30 @@ public class AppOption {
     return this.qrimagePosY;
   }
 
+  public String getFontName() {
+    return this.fontName;
+  }
+
+  public Integer getFontSize() {
+    return this.fontSize;
+  }
+
+  public Color getFontColor() {
+    return this.fontColor;
+  }
+
+  public Integer getAddressDrawPosX() {
+    return this.addressDrawPosX;
+  }
+
+  public Integer getAddressDrawPosY() {
+    return this.addressDrawPosY;
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+  }
 
 
 }
