@@ -28,18 +28,19 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.MissingOptionException;
 import org.apache.commons.cli.Options;
 
-
 public class App {
   static AppOption appOption;
 
-  public App() {}
+  public App() {
+  }
 
   public String getGreeting() {
     return "Hello World!";
   }
 
   public static void main(String[] args) throws Exception {
-    // List<String> lines = Files.readAllLines(Paths.get(args[0]), StandardCharsets.UTF_8);
+    // List<String> lines = Files.readAllLines(Paths.get(args[0]),
+    // StandardCharsets.UTF_8);
     // System.out.println(new App().getGreeting());
 
     // BufferedImage im = new BufferedImage(400, 300, BufferedImage.TYPE_INT_RGB);
@@ -53,12 +54,10 @@ public class App {
     // g.setColor(new Color(123456));
     // g.fillOval(0, 0, 100, 100);
 
-
-
     // g.dispose();
 
-    // ImageIO.write(im, "png", new File("c:\\temp\\" + System.nanoTime() + ".png"));
-
+    // ImageIO.write(im, "png", new File("c:\\temp\\" + System.nanoTime() +
+    // ".png"));
 
     Options options = createOptions();
     CommandLineParser parser = new DefaultParser();
@@ -72,7 +71,6 @@ public class App {
     //
     App.appOption = new AppOption(prop);
 
-
     //
     int i = 0;
     for (String message : appOption.getDatas()) {
@@ -84,24 +82,23 @@ public class App {
 
       xxx(message, qrcodeImageFilename, "충북 청주시 흥덕구 서현서로25번길 37");
 
-
       System.out.println(i++ + "/" + appOption.getDatas().size() + "\t" + new Date() + "\t" + message);
       appOption.getOutPath().resolve(qrcodeImageFilename).toFile().delete();
 
     }
   }
 
+  /**
+   * 
+   * @return
+   */
   static Options createOptions() {
     Options opt = new Options();
 
     opt.addOption("prop", true, "M property file's full path ex)c:\\temp\\app.properties");
 
-
-
     return opt;
   }
-
-
 
   /**
    * 
@@ -110,9 +107,11 @@ public class App {
    * @throws IOException
    */
   static void xxx(String fileName, String qrcodeImageFilename, String addressName) throws IOException {
-    BufferedImage image = ImageIO.read(appOption.getOutPath().resolve(appOption.getBasicImageFile().getName()).toFile());
+    BufferedImage image = ImageIO
+        .read(appOption.getOutPath().resolve(appOption.getBasicImageFile().getName()).toFile());
     BufferedImage qrimage = ImageIO.read(appOption.getOutPath().resolve(qrcodeImageFilename).toFile());
-    BufferedImage combined = createCombinedImage(Math.max(image.getWidth(), qrimage.getWidth()), Math.max(image.getHeight(), qrimage.getHeight()));
+    BufferedImage combined = createCombinedImage(Math.max(image.getWidth(), qrimage.getWidth()),
+        Math.max(image.getHeight(), qrimage.getHeight()));
 
     Graphics g = combined.getGraphics();
     g.drawImage(image, 0, 0, null);
@@ -127,7 +126,6 @@ public class App {
     writeToFile(combined, fileName + ".png");
   }
 
-
   /**
    * 
    * @param w
@@ -138,7 +136,6 @@ public class App {
     return new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
   }
 
-
   /**
    * 
    * @param message
@@ -148,13 +145,13 @@ public class App {
    */
   static String createQrcode(String message) throws WriterException, IOException {
     String str = getEncodedString(message);
-    BitMatrix bitMatrix = new QRCodeWriter().encode(str, BarcodeFormat.QR_CODE, appOption.getQrimageWidth(), appOption.getQrimageHeight());
+    BitMatrix bitMatrix = new QRCodeWriter().encode(str, BarcodeFormat.QR_CODE, appOption.getQrimageWidth(),
+        appOption.getQrimageHeight());
     String filename = System.nanoTime() + ".png";
     writeToFile(bitMatrix, filename);
 
     return filename;
   }
-
 
   /**
    * 
@@ -166,7 +163,6 @@ public class App {
     return new String(str.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
   }
 
-
   /**
    * 
    * @param bitMatrix
@@ -174,9 +170,9 @@ public class App {
    * @throws IOException
    */
   static void writeToFile(BitMatrix bitMatrix, String filename) throws IOException {
-    MatrixToImageWriter.writeToPath(bitMatrix, "png", appOption.getOutPath().resolve(filename), appOption.getMatrixToImageConfig());
+    MatrixToImageWriter.writeToPath(bitMatrix, "png", appOption.getOutPath().resolve(filename),
+        appOption.getMatrixToImageConfig());
   }
-
 
   /**
    * 
@@ -188,11 +184,16 @@ public class App {
     ImageIO.write(bi, "png", appOption.getOutPath().resolve(filename).toFile());
   }
 
+  /**
+   * 
+   * @param cmd
+   * @return
+   * @throws Exception
+   */
   private static Properties loadProperties(CommandLine cmd) throws Exception {
     if (!cmd.hasOption("prop")) {
       throw new MissingOptionException("prop");
     }
-
 
     try (InputStream is = new FileInputStream(Paths.get(cmd.getOptionValue("prop")).toString())) {
       Properties prop = new Properties();

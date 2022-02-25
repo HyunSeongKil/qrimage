@@ -35,7 +35,7 @@ git commit -m "message"
 repository 생성
 
 // at local
-git remote ad origin origin [URL]
+git remote add origin [URL]
 git remote -v // 확인
 git push --set-upstream origin master
 git push

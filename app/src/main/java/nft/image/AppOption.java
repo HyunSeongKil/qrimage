@@ -12,7 +12,9 @@ import com.google.zxing.client.j2se.MatrixToImageConfig;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-
+/**
+ * @author nft
+ */
 public class AppOption {
   private Path outPath;
   private File basicImageFile;
@@ -32,8 +34,11 @@ public class AppOption {
   private Integer addressDrawPosY = 200;
   private Color fontColor = new Color(0, 0, 0);
 
-
-
+  /**
+   * 
+   * @param prop
+   * @throws IOException
+   */
   public AppOption(Properties prop) throws IOException {
     if (null != prop.getProperty("data.file")) {
       this.dataFile = new File(prop.getProperty("data.file"));
@@ -101,7 +106,6 @@ public class AppOption {
     //
     System.out.println(this);
   }
-
 
   public Path getOutPath() {
     return this.outPath;
@@ -171,6 +175,5 @@ public class AppOption {
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
-
 
 }
