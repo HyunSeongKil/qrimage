@@ -5,6 +5,8 @@ package nft.image;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -56,6 +58,33 @@ public class AppTest {
     File basicImageFile = appOption.getBasicImageFile();
     System.out.println(basicImageFile);
     assertNotNull(basicImageFile);
+  }
+
+  @Test
+  public void 로드_서브_이미지_경로() throws IOException, Exception {
+    AppOption appOption = new AppOption(loadProperties());
+
+    Path subImagePath = appOption.getSubImagePath();
+    System.out.println(subImagePath);
+    assertNotNull(subImagePath);
+  }
+
+  @Test
+  public void 로드_서브_이미지_파일_by_공시지가() throws IOException, Exception {
+    AppOption appOption = new AppOption(loadProperties());
+
+    File subImageFile = App.getSubImageFileByMoney(appOption.getSubImagePath(), 1000);
+    System.out.println(subImageFile);
+    assertEquals("message", "a.png", subImageFile.getName());
+  }
+
+  @Test
+  public void 로드_서브_이미지_파일_by_공시지가2() throws IOException, Exception {
+    AppOption appOption = new AppOption(loadProperties());
+
+    File subImageFile = App.getSubImageFileByMoney(appOption.getSubImagePath(), 10000);
+    System.out.println(subImageFile);
+    assertEquals("message", "b.png", subImageFile.getName());
   }
 
   @Test
@@ -175,9 +204,36 @@ public class AppTest {
 
   }
 
+  @Test
+  public void 공백_buffered_image_생성() {
+    BufferedImage bufferedImage = App.createBlankBufferedImage(100, 200);
+    assertEquals(100, bufferedImage.getWidth());
+    assertEquals(200, bufferedImage.getHeight());
+  }
+
+  @Test
+  public void 로드_서브_이미지_위치_x() throws IOException, Exception {
+    AppOption appOption = new AppOption(loadProperties());
+
+    Integer posX = appOption.getSubImagePosX();
+
+    System.out.println(posX);
+    assertEquals("100", "" + posX);
+  }
+
+  @Test
+  public void 로드_서브_이미지_위치_y() throws IOException, Exception {
+    AppOption appOption = new AppOption(loadProperties());
+
+    Integer posY = appOption.getSubImagePosY();
+
+    System.out.println(posY);
+    assertEquals("100", "" + posY);
+  }
 
   private Properties loadProperties() throws Exception {
-    try (InputStream is = new FileInputStream(Paths.get("d:\\", "work", "sdt", "nft-image", "app", "src", "main", "resources", "app.properties").toString())) {
+    try (InputStream is = new FileInputStream(Paths
+        .get("f:\\", "work", "my", "qrimage", "app", "src", "main", "resources", "app.properties").toString())) {
       Properties prop = new Properties();
       prop.load(is);
 

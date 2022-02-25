@@ -8,6 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
+
 import com.google.zxing.client.j2se.MatrixToImageConfig;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -17,6 +19,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class AppOption {
   private Path outPath;
+  private Path subImagePath;
+  private Integer subImagePosX;
+  private Integer subImagePosY;
   private File basicImageFile;
   private File dataFile;
   private List<String> datas;
@@ -42,7 +47,8 @@ public class AppOption {
   public AppOption(Properties prop) throws IOException {
     if (null != prop.getProperty("data.file")) {
       this.dataFile = new File(prop.getProperty("data.file"));
-      this.datas = Files.readAllLines(this.dataFile.toPath());
+      this.datas = Files.readAllLines(this.dataFile.toPath()).stream().filter(predicate -> !predicate.startsWith("#"))
+          .collect(Collectors.toList());
     }
 
     if (null != prop.getProperty("basic.image.file")) {
@@ -51,6 +57,18 @@ public class AppOption {
 
     if (null != prop.getProperty("out.path")) {
       this.outPath = Paths.get(prop.getProperty("out.path"));
+    }
+
+    if (null != prop.getProperty("sub.image.path")) {
+      this.subImagePath = Paths.get(prop.getProperty("sub.image.path"));
+    }
+
+    if (null != prop.getProperty("sub.image.pos.x")) {
+      this.subImagePosX = Integer.parseInt(prop.getProperty("sub.image.pos.x"));
+    }
+
+    if (null != prop.getProperty("sub.image.pos.y")) {
+      this.subImagePosY = Integer.parseInt(prop.getProperty("sub.image.pos.y"));
     }
 
     if (null != prop.getProperty("qrimage.on.color")) {
@@ -171,9 +189,21 @@ public class AppOption {
     return this.addressDrawPosY;
   }
 
+  public Path getSubImagePath() {
+    return this.subImagePath;
+  }
+
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+  }
+
+  public Integer getSubImagePosX() {
+    return subImagePosX;
+  }
+
+  public Integer getSubImagePosY() {
+    return subImagePosY;
   }
 
 }

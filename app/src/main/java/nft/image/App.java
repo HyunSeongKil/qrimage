@@ -7,11 +7,13 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Properties;
@@ -77,15 +79,85 @@ public class App {
       if (null == message || 0 == message.trim().length()) {
         continue;
       }
-      //
-      String qrcodeImageFilename = App.createQrcode(message);
 
-      xxx(message, qrcodeImageFilename, "충북 청주시 흥덕구 서현서로25번길 37");
+      String[] arr = message.split("\t");
+      String pnu = arr[0];
+      String address = arr[1];
+      Integer money = Integer.parseInt(arr[2]);
+      File subImageFile = getSubImageFileByMoney(appOption.getSubImagePath(), money);
 
-      System.out.println(i++ + "/" + appOption.getDatas().size() + "\t" + new Date() + "\t" + message);
-      appOption.getOutPath().resolve(qrcodeImageFilename).toFile().delete();
+      createNftImage(appOption.getBasicImageFile(), subImageFile, pnu, address, money);
+
+      // //
+      // String qrcodeImageFilename = App.createQrcode(message);
+
+      // xxx(message, qrcodeImageFilename, "충북 청주시 흥덕구 서현서로25번길 37");
+
+      // System.out.println(i++ + "/" + appOption.getDatas().size() + "\t" + new
+      // Date() + "\t" + message);
+
+      // // 임시파일 삭제
+      // appOption.getOutPath().resolve(qrcodeImageFilename).toFile().delete();
 
     }
+  }
+
+  private static void createNftImage(File basicImageFile, File subImageFile, String pnu, String address,
+      Integer money) throws IOException {
+    BufferedImage basicBufferedImage = ImageIO.read(basicImageFile);
+    BufferedImage blankBi = createBlankBufferedImage(basicBufferedImage.getWidth(), basicBufferedImage.getHeight());
+
+    Graphics g = blankBi.getGraphics();
+
+    // 특정위치에 draw subImage
+    drawImage(g, basicBufferedImage, appOption);
+
+    // 특정위치에 주소 쓰기
+    drawString(g, address, appOption);
+
+    g.dispose();
+  }
+
+  /**
+   * 이미지 그리기
+   * 
+   * @param g
+   * @param bi
+   * @param appOption
+   */
+  private static void drawImage(Graphics g, BufferedImage bi, AppOption appOption) {
+    g.drawImage(bi, appOption.getSubImagePosX(), appOption.getSubImagePosY(), null);
+  }
+
+  /**
+   * 텍스트 쓰기
+   * 
+   * @param g
+   * @param text
+   * @param appOption
+   */
+  static void drawString(Graphics g, String text, AppOption appOption) {
+    g.setColor(appOption.getFontColor());
+    g.setFont(new Font(appOption.getFontName(), Font.PLAIN, appOption.getFontSize()));
+    g.drawString(text, appOption.getAddressDrawPosX(), appOption.getAddressDrawPosY());
+  }
+
+  /**
+   * 공시지가별 서브 이미지 파일 구하기
+   * 
+   * @param subImagePath
+   * @param money
+   * @return
+   */
+  static File getSubImageFileByMoney(Path subImagePath, Integer money) {
+    String filename = "";
+    if (10000 > money) {
+      filename = "a.png";
+    } else {
+      filename = "b.png";
+    }
+
+    return subImagePath.resolve(filename).toFile();
   }
 
   /**
@@ -110,7 +182,7 @@ public class App {
     BufferedImage image = ImageIO
         .read(appOption.getOutPath().resolve(appOption.getBasicImageFile().getName()).toFile());
     BufferedImage qrimage = ImageIO.read(appOption.getOutPath().resolve(qrcodeImageFilename).toFile());
-    BufferedImage combined = createCombinedImage(Math.max(image.getWidth(), qrimage.getWidth()),
+    BufferedImage combined = createBlankBufferedImage(Math.max(image.getWidth(), qrimage.getWidth()),
         Math.max(image.getHeight(), qrimage.getHeight()));
 
     Graphics g = combined.getGraphics();
@@ -132,7 +204,7 @@ public class App {
    * @param h
    * @return
    */
-  static BufferedImage createCombinedImage(int w, int h) {
+  static BufferedImage createBlankBufferedImage(int w, int h) {
     return new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
   }
 
