@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ public class AppOption {
   private File basicImageFile;
   private File dataFile;
   private List<String> datas;
+  private List<DataDto> dataDtos;
   private Long onColor = Long.parseLong("00000000", 16);
   private Long offColor = Long.parseLong("ff000000", 16);
   private MatrixToImageConfig config;
@@ -39,6 +41,10 @@ public class AppOption {
   private Integer addressDrawPosY = 200;
   private Color fontColor = new Color(0, 0, 0);
 
+  public AppOption() {
+    super();
+  }
+
   /**
    * 
    * @param prop
@@ -49,6 +55,8 @@ public class AppOption {
       this.dataFile = new File(prop.getProperty("data.file"));
       this.datas = Files.readAllLines(this.dataFile.toPath()).stream().filter(predicate -> !predicate.startsWith("#"))
           .collect(Collectors.toList());
+
+      this.dataDtos = toDataDtos(datas);
     }
 
     if (null != prop.getProperty("basic.image.file")) {
@@ -201,9 +209,26 @@ public class AppOption {
     return subImagePosY;
   }
 
+  public List<DataDto> getDataDtos() {
+    return this.dataDtos;
+  }
+
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+  }
+
+  public List<DataDto> toDataDtos(List<String> list) {
+    List<DataDto> dtos = new ArrayList<>();
+
+    String[] arr;
+    for (String s : list) {
+      arr = s.split("\\^");
+
+      dtos.add(DataDto.builder().pnu(arr[0]).address(arr[1]).amount(Integer.parseInt(arr[2])).build());
+    }
+
+    return dtos;
   }
 
 }
