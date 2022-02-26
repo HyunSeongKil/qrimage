@@ -15,9 +15,18 @@ import com.google.zxing.client.j2se.MatrixToImageConfig;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @author nft
  */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AppOption {
   private Path outPath;
   private Path subImagePath;
@@ -39,10 +48,6 @@ public class AppOption {
   private Integer addressDrawPosX = 100;
   private Integer addressDrawPosY = 200;
   private Color fontColor = new Color(0, 0, 0);
-
-  public AppOption() {
-    super();
-  }
 
   /**
    * 
@@ -133,81 +138,81 @@ public class AppOption {
     System.out.println(this);
   }
 
-  public Path getOutPath() {
-    return this.outPath;
-  }
+  // public Path getOutPath() {
+  // return this.outPath;
+  // }
 
-  public File getBasicImageFile() {
-    return this.basicImageFile;
-  }
+  // public File getBasicImageFile() {
+  // return this.basicImageFile;
+  // }
 
-  public File getDataFile() {
-    return this.dataFile;
-  }
+  // public File getDataFile() {
+  // return this.dataFile;
+  // }
 
-  public Long getOnColor() {
-    return this.onColor;
-  }
+  // public Long getOnColor() {
+  // return this.onColor;
+  // }
 
-  public Long getOffColor() {
-    return this.offColor;
-  }
+  // public Long getOffColor() {
+  // return this.offColor;
+  // }
 
-  public MatrixToImageConfig getMatrixToImageConfig() {
-    return this.config;
-  }
+  // public MatrixToImageConfig getMatrixToImageConfig() {
+  // return this.config;
+  // }
 
-  public Integer getQrimageWidth() {
-    return this.qrimageWidth;
-  }
+  // public Integer getQrimageWidth() {
+  // return this.qrimageWidth;
+  // }
 
-  public Integer getQrimageHeight() {
-    return this.qrimageHeight;
-  }
+  // public Integer getQrimageHeight() {
+  // return this.qrimageHeight;
+  // }
 
-  public Integer getQrimagePosX() {
-    return this.qrimagePosX;
-  }
+  // public Integer getQrimagePosX() {
+  // return this.qrimagePosX;
+  // }
 
-  public Integer getQrimagePosY() {
-    return this.qrimagePosY;
-  }
+  // public Integer getQrimagePosY() {
+  // return this.qrimagePosY;
+  // }
 
-  public String getFontName() {
-    return this.fontName;
-  }
+  // public String getFontName() {
+  // return this.fontName;
+  // }
 
-  public Integer getFontSize() {
-    return this.fontSize;
-  }
+  // public Integer getFontSize() {
+  // return this.fontSize;
+  // }
 
-  public Color getFontColor() {
-    return this.fontColor;
-  }
+  // public Color getFontColor() {
+  // return this.fontColor;
+  // }
 
-  public Integer getAddressDrawPosX() {
-    return this.addressDrawPosX;
-  }
+  // public Integer getAddressDrawPosX() {
+  // return this.addressDrawPosX;
+  // }
 
-  public Integer getAddressDrawPosY() {
-    return this.addressDrawPosY;
-  }
+  // public Integer getAddressDrawPosY() {
+  // return this.addressDrawPosY;
+  // }
 
-  public Path getSubImagePath() {
-    return this.subImagePath;
-  }
+  // public Path getSubImagePath() {
+  // return this.subImagePath;
+  // }
 
-  public Integer getSubImagePosX() {
-    return subImagePosX;
-  }
+  // public Integer getSubImagePosX() {
+  // return subImagePosX;
+  // }
 
-  public Integer getSubImagePosY() {
-    return subImagePosY;
-  }
+  // public Integer getSubImagePosY() {
+  // return subImagePosY;
+  // }
 
-  public List<DataDto> getDataDtos() {
-    return this.dataDtos;
-  }
+  // public List<DataDto> getDataDtos() {
+  // return this.dataDtos;
+  // }
 
   @Override
   public String toString() {
