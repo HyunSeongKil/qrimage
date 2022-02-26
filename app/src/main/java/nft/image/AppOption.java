@@ -193,17 +193,17 @@ public class AppOption {
     return this.subImagePath;
   }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-  }
-
   public Integer getSubImagePosX() {
     return subImagePosX;
   }
 
   public Integer getSubImagePosY() {
     return subImagePosY;
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 
 }
