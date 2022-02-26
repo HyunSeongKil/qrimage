@@ -248,7 +248,7 @@ public class App {
    */
   static void writeToFile(BitMatrix bitMatrix, String filename) throws IOException {
     MatrixToImageWriter.writeToPath(bitMatrix, "png", appOption.getOutPath().resolve(filename),
-        appOption.getMatrixToImageConfig());
+        appOption.getConfig());
   }
 
   /**
