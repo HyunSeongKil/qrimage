@@ -76,18 +76,11 @@ public class App {
 
     //
     int i = 0;
-    for (String message : appOption.getDatas()) {
-      if (null == message || 0 == message.trim().length()) {
-        continue;
-      }
+    for (DataDto dto : appOption.getDataDtos()) {
 
-      String[] arr = message.split("\t");
-      String pnu = arr[0];
-      String address = arr[1];
-      Integer money = Integer.parseInt(arr[2]);
-      File subImageFile = getSubImageFileByMoney(appOption.getSubImagePath(), money);
+      File subImageFile = getSubImageFileByAmount(appOption.getSubImagePath(), dto.getAmount());
 
-      createNftImage(appOption.getBasicImageFile(), subImageFile, pnu, address, money);
+      createNftImage(appOption.getBasicImageFile(), subImageFile, dto);
 
       // //
       // String qrcodeImageFilename = App.createQrcode(message);
@@ -100,6 +93,7 @@ public class App {
       // // 임시파일 삭제
       // appOption.getOutPath().resolve(qrcodeImageFilename).toFile().delete();
 
+      System.out.println((i++) + "\t키:" + dto.getPnu() + "\t등급:" + subImageFile.getName());
     }
   }
 
@@ -108,13 +102,10 @@ public class App {
    * 
    * @param basicImageFile
    * @param subImageFile
-   * @param pnu
-   * @param address
-   * @param money
+   * @param dto
    * @throws IOException
    */
-  private static void createNftImage(File basicImageFile, File subImageFile, String pnu, String address,
-      Integer money) throws IOException {
+  private static void createNftImage(File basicImageFile, File subImageFile, DataDto dto) throws IOException {
     BufferedImage basicBufferedImage = ImageIO.read(basicImageFile);
     BufferedImage blankBi = createBlankBufferedImage(basicBufferedImage.getWidth(), basicBufferedImage.getHeight());
 
@@ -124,12 +115,12 @@ public class App {
     drawSubImage(g, basicBufferedImage, appOption);
 
     // 특정위치에 주소 쓰기
-    drawAddress(g, address, appOption);
+    drawAddress(g, dto.getAddress(), appOption);
 
     g.dispose();
 
     // 아웃 폴더에 이미지 파일로 저장
-    writeToFile(blankBi, appOption.getOutPath().resolve(pnu + ".png").toFile());
+    writeToFile(blankBi, appOption.getOutPath().resolve(dto.getPnu() + ".png").toFile());
   }
 
   /**
@@ -163,7 +154,7 @@ public class App {
    * @param money
    * @return
    */
-  static File getSubImageFileByMoney(Path subImagePath, Integer money) {
+  static File getSubImageFileByAmount(Path subImagePath, Integer money) {
     String filename = "";
     if (10000 > money) {
       filename = "a.png";
