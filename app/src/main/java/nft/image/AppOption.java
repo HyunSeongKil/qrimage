@@ -55,6 +55,8 @@ public class AppOption {
       this.dataFile = new File(prop.getProperty("data.file"));
       this.datas = Files.readAllLines(this.dataFile.toPath()).stream().filter(predicate -> !predicate.startsWith("#"))
           .collect(Collectors.toList());
+
+      this.dataDtos = toDataDtos(datas);
     }
 
     if (null != prop.getProperty("basic.image.file")) {
@@ -205,6 +207,10 @@ public class AppOption {
 
   public Integer getSubImagePosY() {
     return subImagePosY;
+  }
+
+  public List<DataDto> getDataDtos() {
+    return this.dataDtos;
   }
 
   @Override
