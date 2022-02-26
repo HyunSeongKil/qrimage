@@ -270,6 +270,10 @@ public class App {
     ImageIO.write(bi, "png", appOption.getOutPath().resolve(filename).toFile());
   }
 
+  public static void writeToFile(BufferedImage bi, File outFile) throws IOException {
+    ImageIO.write(bi, "png", outFile);
+  }
+
   /**
    * 
    * @param cmd
@@ -289,10 +293,6 @@ public class App {
     } catch (Exception e) {
       throw e;
     }
-  }
-
-  public static void writeToFile(BufferedImage bi, File outFile) throws IOException {
-    ImageIO.write(bi, "png", outFile);
   }
 
 }
