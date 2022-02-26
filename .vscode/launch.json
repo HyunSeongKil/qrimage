@@ -37,7 +37,7 @@
       "request": "launch",
       "mainClass": "nft.image.App",
       "projectName": "app",
-      "args": ["-prop", "D:\\work\\sdt\\nft-image\\app\\src\\main\\resources\\app.properties"]
+      "args": ["-prop", "f:\\work\\my\\qrimage\\app\\src\\main\\resources\\app.properties"]
     }
   ]
 }
