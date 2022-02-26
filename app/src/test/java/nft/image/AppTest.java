@@ -15,6 +15,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
+
+import javax.imageio.ImageIO;
 import javax.print.attribute.standard.OutputDeviceAssigned;
 
 public class AppTest {
@@ -229,6 +231,18 @@ public class AppTest {
 
     System.out.println(posY);
     assertEquals("100", "" + posY);
+  }
+
+  @Test
+  public void nft_이미지_파일로_저장() throws IOException, Exception {
+    AppOption appOption = new AppOption(loadProperties());
+
+    java.awt.image.BufferedImage bi = ImageIO.read(appOption.getBasicImageFile());
+    String filename = "a.png";
+    File outFile = appOption.getOutPath().resolve(filename).toFile();
+    App.writeToFile(bi, outFile);
+
+    assertTrue(appOption.getOutPath().resolve(filename).toFile().exists());
   }
 
   private Properties loadProperties() throws Exception {

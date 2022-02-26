@@ -29,6 +29,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.MissingOptionException;
 import org.apache.commons.cli.Options;
+import org.checkerframework.checker.units.qual.g;
 
 public class App {
   static AppOption appOption;
@@ -126,6 +127,9 @@ public class App {
     drawAddress(g, address, appOption);
 
     g.dispose();
+
+    // 아웃 폴더에 이미지 파일로 저장
+    writeToFile(blankBi, appOption.getOutPath().resolve(pnu + ".png").toFile());
   }
 
   /**
@@ -285,6 +289,10 @@ public class App {
     } catch (Exception e) {
       throw e;
     }
+  }
+
+  public static void writeToFile(BufferedImage bi, File outFile) throws IOException {
+    ImageIO.write(bi, "png", outFile);
   }
 
 }
