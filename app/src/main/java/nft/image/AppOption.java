@@ -25,7 +25,6 @@ public class AppOption {
   private Integer subImagePosY;
   private File basicImageFile;
   private File dataFile;
-  private List<String> datas;
   private List<DataDto> dataDtos;
   private Long onColor = Long.parseLong("00000000", 16);
   private Long offColor = Long.parseLong("ff000000", 16);
@@ -53,7 +52,8 @@ public class AppOption {
   public AppOption(Properties prop) throws IOException {
     if (null != prop.getProperty("data.file")) {
       this.dataFile = new File(prop.getProperty("data.file"));
-      this.datas = Files.readAllLines(this.dataFile.toPath()).stream().filter(predicate -> !predicate.startsWith("#"))
+      List<String> datas = Files.readAllLines(this.dataFile.toPath()).stream()
+          .filter(predicate -> !predicate.startsWith("#"))
           .collect(Collectors.toList());
 
       this.dataDtos = toDataDtos(datas);
@@ -143,10 +143,6 @@ public class AppOption {
 
   public File getDataFile() {
     return this.dataFile;
-  }
-
-  public List<String> getDatas() {
-    return this.datas;
   }
 
   public Long getOnColor() {

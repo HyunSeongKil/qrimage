@@ -3,9 +3,10 @@
  */
 package nft.image;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-import java.awt.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,11 +14,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Properties;
 
 import javax.imageio.ImageIO;
-import javax.print.attribute.standard.OutputDeviceAssigned;
+
+import org.junit.Test;
 
 public class AppTest {
   @Test
@@ -45,15 +46,6 @@ public class AppTest {
   }
 
   @Test
-  public void 로드_데이터() throws Exception {
-    AppOption appOption = new AppOption(loadProperties());
-
-    List<String> datas = appOption.getDatas();
-    System.out.println(datas);
-    assertNotNull(datas);
-  }
-
-  @Test
   public void 로드_기본_이미지_파일() throws Exception {
     AppOption appOption = new AppOption(loadProperties());
 
@@ -75,7 +67,7 @@ public class AppTest {
   public void 로드_서브_이미지_파일_by_공시지가() throws IOException, Exception {
     AppOption appOption = new AppOption(loadProperties());
 
-    File subImageFile = App.getSubImageFileByMoney(appOption.getSubImagePath(), 1000);
+    File subImageFile = App.getSubImageFileByAmount(appOption.getSubImagePath(), 1000);
     System.out.println(subImageFile);
     assertEquals("message", "a.png", subImageFile.getName());
   }
@@ -84,7 +76,7 @@ public class AppTest {
   public void 로드_서브_이미지_파일_by_공시지가2() throws IOException, Exception {
     AppOption appOption = new AppOption(loadProperties());
 
-    File subImageFile = App.getSubImageFileByMoney(appOption.getSubImagePath(), 10000);
+    File subImageFile = App.getSubImageFileByAmount(appOption.getSubImagePath(), 10000);
     System.out.println(subImageFile);
     assertEquals("message", "b.png", subImageFile.getName());
   }
