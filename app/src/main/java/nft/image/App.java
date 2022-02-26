@@ -102,6 +102,16 @@ public class App {
     }
   }
 
+  /**
+   * nft 이미지 생성
+   * 
+   * @param basicImageFile
+   * @param subImageFile
+   * @param pnu
+   * @param address
+   * @param money
+   * @throws IOException
+   */
   private static void createNftImage(File basicImageFile, File subImageFile, String pnu, String address,
       Integer money) throws IOException {
     BufferedImage basicBufferedImage = ImageIO.read(basicImageFile);
@@ -110,10 +120,10 @@ public class App {
     Graphics g = blankBi.getGraphics();
 
     // 특정위치에 draw subImage
-    drawImage(g, basicBufferedImage, appOption);
+    drawSubImage(g, basicBufferedImage, appOption);
 
     // 특정위치에 주소 쓰기
-    drawString(g, address, appOption);
+    drawAddress(g, address, appOption);
 
     g.dispose();
   }
@@ -125,7 +135,7 @@ public class App {
    * @param bi
    * @param appOption
    */
-  private static void drawImage(Graphics g, BufferedImage bi, AppOption appOption) {
+  private static void drawSubImage(Graphics g, BufferedImage bi, AppOption appOption) {
     g.drawImage(bi, appOption.getSubImagePosX(), appOption.getSubImagePosY(), null);
   }
 
@@ -136,7 +146,7 @@ public class App {
    * @param text
    * @param appOption
    */
-  static void drawString(Graphics g, String text, AppOption appOption) {
+  static void drawAddress(Graphics g, String text, AppOption appOption) {
     g.setColor(appOption.getFontColor());
     g.setFont(new Font(appOption.getFontName(), Font.PLAIN, appOption.getFontSize()));
     g.drawString(text, appOption.getAddressDrawPosX(), appOption.getAddressDrawPosY());
