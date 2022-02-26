@@ -15,9 +15,18 @@ import com.google.zxing.client.j2se.MatrixToImageConfig;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @author nft
  */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AppOption {
   private Path outPath;
   private Path subImagePath;
@@ -25,7 +34,6 @@ public class AppOption {
   private Integer subImagePosY;
   private File basicImageFile;
   private File dataFile;
-  private List<String> datas;
   private List<DataDto> dataDtos;
   private Long onColor = Long.parseLong("00000000", 16);
   private Long offColor = Long.parseLong("ff000000", 16);
@@ -41,10 +49,6 @@ public class AppOption {
   private Integer addressDrawPosY = 200;
   private Color fontColor = new Color(0, 0, 0);
 
-  public AppOption() {
-    super();
-  }
-
   /**
    * 
    * @param prop
@@ -53,8 +57,11 @@ public class AppOption {
   public AppOption(Properties prop) throws IOException {
     if (null != prop.getProperty("data.file")) {
       this.dataFile = new File(prop.getProperty("data.file"));
-      this.datas = Files.readAllLines(this.dataFile.toPath()).stream().filter(predicate -> !predicate.startsWith("#"))
+      List<String> datas = Files.readAllLines(this.dataFile.toPath()).stream()
+          .filter(predicate -> !predicate.startsWith("#"))
           .collect(Collectors.toList());
+
+      this.dataDtos = toDataDtos(datas);
     }
 
     if (null != prop.getProperty("basic.image.file")) {
@@ -131,81 +138,81 @@ public class AppOption {
     System.out.println(this);
   }
 
-  public Path getOutPath() {
-    return this.outPath;
-  }
+  // public Path getOutPath() {
+  // return this.outPath;
+  // }
 
-  public File getBasicImageFile() {
-    return this.basicImageFile;
-  }
+  // public File getBasicImageFile() {
+  // return this.basicImageFile;
+  // }
 
-  public File getDataFile() {
-    return this.dataFile;
-  }
+  // public File getDataFile() {
+  // return this.dataFile;
+  // }
 
-  public List<String> getDatas() {
-    return this.datas;
-  }
+  // public Long getOnColor() {
+  // return this.onColor;
+  // }
 
-  public Long getOnColor() {
-    return this.onColor;
-  }
+  // public Long getOffColor() {
+  // return this.offColor;
+  // }
 
-  public Long getOffColor() {
-    return this.offColor;
-  }
+  // public MatrixToImageConfig getMatrixToImageConfig() {
+  // return this.config;
+  // }
 
-  public MatrixToImageConfig getMatrixToImageConfig() {
-    return this.config;
-  }
+  // public Integer getQrimageWidth() {
+  // return this.qrimageWidth;
+  // }
 
-  public Integer getQrimageWidth() {
-    return this.qrimageWidth;
-  }
+  // public Integer getQrimageHeight() {
+  // return this.qrimageHeight;
+  // }
 
-  public Integer getQrimageHeight() {
-    return this.qrimageHeight;
-  }
+  // public Integer getQrimagePosX() {
+  // return this.qrimagePosX;
+  // }
 
-  public Integer getQrimagePosX() {
-    return this.qrimagePosX;
-  }
+  // public Integer getQrimagePosY() {
+  // return this.qrimagePosY;
+  // }
 
-  public Integer getQrimagePosY() {
-    return this.qrimagePosY;
-  }
+  // public String getFontName() {
+  // return this.fontName;
+  // }
 
-  public String getFontName() {
-    return this.fontName;
-  }
+  // public Integer getFontSize() {
+  // return this.fontSize;
+  // }
 
-  public Integer getFontSize() {
-    return this.fontSize;
-  }
+  // public Color getFontColor() {
+  // return this.fontColor;
+  // }
 
-  public Color getFontColor() {
-    return this.fontColor;
-  }
+  // public Integer getAddressDrawPosX() {
+  // return this.addressDrawPosX;
+  // }
 
-  public Integer getAddressDrawPosX() {
-    return this.addressDrawPosX;
-  }
+  // public Integer getAddressDrawPosY() {
+  // return this.addressDrawPosY;
+  // }
 
-  public Integer getAddressDrawPosY() {
-    return this.addressDrawPosY;
-  }
+  // public Path getSubImagePath() {
+  // return this.subImagePath;
+  // }
 
-  public Path getSubImagePath() {
-    return this.subImagePath;
-  }
+  // public Integer getSubImagePosX() {
+  // return subImagePosX;
+  // }
 
-  public Integer getSubImagePosX() {
-    return subImagePosX;
-  }
+  // public Integer getSubImagePosY() {
+  // return subImagePosY;
+  // }
 
-  public Integer getSubImagePosY() {
-    return subImagePosY;
-  }
+  // public List<DataDto> getDataDtos() {
+  // return this.dataDtos;
+  // }
 
   @Override
   public String toString() {
